@@ -1,0 +1,31 @@
+# --- Local-only files ---
+PREP.md
+.env
+.env.*
+!.env.example
+
+# --- Node ---
+node_modules/
+dist/
+.cache/
+.coverage/
+.vite/
+*.log
+npm-debug.log*
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Editor / IDE ---
+.idea/
+.vscode/
+*.swp
