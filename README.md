@@ -2,15 +2,13 @@
 
 This repo checks that your laptop has everything needed for the Connecteam interview.
 
-You do **not** get Connecteam Cursor access until interview day. Warmup does not need our team.
+Clone it, open it in Cursor, run **`/setup-prep`**. The skill does the rest: GitHub username + email, confirms this terminal is that GitHub account, installs Python/Node deps, starts the app.
 
-**If you use Cursor:** clone this repo, open it, run **`/setup-prep`**. The skill does the rest (GitHub username + email, confirms this terminal is that GitHub account, installs deps, starts the app).
+For this install, use a **personal free** Cursor account. On interview day we give you a paid Cursor account.
 
-Use **Cursor Hobby (free)** or a **personal** Cursor account you already pay for. Do **not** use a work / company SSO Cursor account — it often cannot join our team later, and it is the wrong login for this interview.
+You can skip Cursor and follow [Manual setup](#manual-setup) instead.
 
-**If you do not want Cursor for this step:** skip the skill. Install the tools and run the commands in [Manual setup](#manual-setup). That is enough.
-
-You do not need to read further unless you chose the manual path or want the details.
+You do not need to read further. The rest of this README is optional if you want the details yourself.
 
 ---
 
@@ -42,11 +40,12 @@ git clone https://github.com/Connecteam-Interviews/interview-warmup.git
 cd interview-warmup
 ```
 
-Log GitHub CLI in as the account you will use on interview day:
+If the skill is happy, http://localhost:5173, http://localhost:8000/health, and http://localhost:8000/docs all respond.
+
+If `gh` is not logged in as the username you typed:
 
 ```bash
 gh auth login
-gh api user --jq .login
 ```
 
 Wrong account:
@@ -57,8 +56,6 @@ gh auth login
 ```
 
 ## Manual setup
-
-Same result as `/setup-prep`, without Cursor.
 
 ```bash
 cd backend
@@ -75,5 +72,3 @@ cd frontend
 npm install
 npm run dev
 ```
-
-Then http://localhost:5173, http://localhost:8000/health, and http://localhost:8000/docs should respond.
