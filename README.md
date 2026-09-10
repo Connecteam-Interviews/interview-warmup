@@ -2,7 +2,7 @@
 
 This repo checks that your laptop has everything needed for the Connecteam interview.
 
-Clone it, open it in Cursor, run **`/setup-prep`**. The skill does the rest: GitHub username + email, confirms this terminal is that GitHub account, installs Python/Node deps, starts the app.
+Clone it. In Cursor, open the **repo root** (`interview-warmup`), then in Agent chat type **`/setup-prep`**. The skill does the rest: asks for your GitHub username, checks git can talk to GitHub as that user, installs Python/Node deps, starts the app.
 
 For this install, use a **personal free** Cursor account. On interview day we give you a paid Cursor account.
 
@@ -16,15 +16,15 @@ You do not need to read further. The rest of this README is optional if you want
 
 This is not the interview. Interview day uses a different private repo.
 
-You need Git, GitHub CLI (`gh`), Python 3.11+, and Node 24+. Newer Python/Node is fine.
+You need Git, Python 3.11+, and Node 24+. Newer Python/Node is fine.
 
 **macOS**
 
 ```bash
-brew install git gh python node
+brew install git python node
 ```
 
-**Windows:** Git from https://git-scm.com/download/win, GitHub CLI from https://cli.github.com/, Python 3.11+ from https://www.python.org/downloads/ (tick **Add python.exe to PATH**), Node 24+ from https://nodejs.org/. In PowerShell, `py --version` is enough if `python` is not on PATH.
+**Windows:** Git from https://git-scm.com/download/win, Python 3.11+ from https://www.python.org/downloads/ (tick **Add python.exe to PATH**), Node 24+ from https://nodejs.org/. In PowerShell, `py --version` is enough if `python` is not on PATH.
 
 **Linux**
 
@@ -33,7 +33,7 @@ sudo apt update
 sudo apt install -y git python3 python3-venv python3-pip
 ```
 
-Install Node 24+ from https://nodejs.org/ or your distro, and GitHub CLI from https://cli.github.com/.
+Install Node 24+ from https://nodejs.org/ or your distro.
 
 ```bash
 git clone https://github.com/Connecteam-Interviews/interview-warmup.git
@@ -42,18 +42,14 @@ cd interview-warmup
 
 If the skill is happy, http://localhost:5173, http://localhost:8000/health, and http://localhost:8000/docs all respond.
 
-If `gh` is not logged in as the username you typed:
+GitHub should work with **git** (not GitHub CLI). From the repo root:
 
 ```bash
-gh auth login
+git fetch origin
+ssh -T git@github.com
 ```
 
-Wrong account:
-
-```bash
-gh auth logout --hostname github.com
-gh auth login
-```
+`ssh -T` should greet the GitHub username you gave the skill.
 
 ## Manual setup
 

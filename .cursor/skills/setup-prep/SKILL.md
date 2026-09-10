@@ -1,22 +1,24 @@
 ---
 name: setup-prep
 description: >-
-  Prepares the interview laptop: collects the candidate GitHub username and
-  email, verifies the GitHub CLI in this terminal is logged in as that user,
-  then installs Python 3.11+ / Node 24+ deps and starts FastAPI + Vite.
-  Use when the user says setup prep, /setup-prep, prepare for the interview,
-  or install the environment from the README.
+  Prepares the interview laptop: collects the candidate GitHub username,
+  verifies git can talk to GitHub as that user, then installs Python 3.11+ /
+  Node 24+ deps and starts FastAPI + Vite. Use when the user says setup prep,
+  /setup-prep, prepare for the interview, or install the environment from the
+  README.
 ---
 
 # Setup prep
 
 Set up this repo exactly as the root `README.md` describes. Do not invent extra install steps. This is a warmup, not the interview — do not implement product features.
 
+Do **not** install or use GitHub CLI (`gh`). Use `git` only.
+
 ## Checklist
 
 ```
-- [ ] Collect GitHub username + email
-- [ ] Prove terminal GitHub matches that username
+- [ ] Collect GitHub username
+- [ ] Prove git can talk to GitHub as that user
 - [ ] Verify runtime prerequisites
 - [ ] Install backend
 - [ ] Install frontend
@@ -24,60 +26,41 @@ Set up this repo exactly as the root `README.md` describes. Do not invent extra 
 - [ ] Confirm URLs
 ```
 
-## 1. GitHub username + email
+## 1. GitHub username
 
-If either is missing, **stop and ask in chat**. Wait for the candidate to type both. Do not guess from `git config`, GitHub CLI, Cursor account, or the machine hostname.
+If missing, **stop and ask in chat**. Wait for the candidate to type it. Do not guess from `git config`, Cursor account, or the machine hostname. Do not ask for email.
 
-Ask for:
+Ask for the **GitHub username** they will use on interview day (the account that can accept a private-repo invite). A profile URL is fine (`https://github.com/alice` → `alice`).
 
-- **GitHub username** they will use on interview day (the account that can accept a private-repo invite)
-- **Email** they will use with Cursor (or their AI IDE)
-
-Do not continue until both are provided. A username copied from a profile URL is fine (`https://github.com/alice` → `alice`). Light-check the email looks like `name@domain`; if not, ask again.
-
-Write them to `PREP.md` at the repo root (already gitignored):
+Write it to `PREP.md` at the repo root (already gitignored):
 
 ```markdown
 github: <username>
-email: <email>
-gh_login: <login from gh api>
 checked_at: <ISO-8601>
 ```
 
 Do not commit this file.
 
-## 2. Prove this terminal is that GitHub account
+## 2. Prove git can talk to GitHub as that user
 
-The typed username must match the account **already authenticated for GitHub in this terminal**. Do not trust `git config user.name` or `user.email`. Always run the command below as a real shell call in this repo; do not skip it or invent a login.
-
-```bash
-gh api user --jq .login
-```
-
-If `gh` is missing or that command fails:
+Do not trust `git config user.name` or `user.email`. Do not run `gh`. Always run these as real shell calls from the **repo root**.
 
 ```bash
-gh auth status
+git fetch origin
 ```
 
-If still failing, **stop**. Tell them to install GitHub CLI if needed, then:
+If that fails, **stop**. Help them fix Git/GitHub auth (SSH key or HTTPS credentials). Do not install GitHub CLI.
+
+Then check which account git is using over SSH:
 
 ```bash
-gh auth login
+ssh -T git@github.com
 ```
 
-GitHub.com → HTTPS → login as the username they gave → allow git credentials. Then re-run `/setup-prep`.
+That command is GitHub’s git/SSH check, not GitHub CLI. The greeting is `Hi <login>!`. Compare **case-insensitively** to the typed username.
 
-Compare logins **case-insensitively**. If they differ, **stop**. Tell them this terminal is logged in as `<actual>`, not `<typed>`. They must switch:
-
-```bash
-gh auth logout --hostname github.com
-gh auth login
-```
-
-Then confirm `gh api user --jq .login` equals the typed username before installing anything.
-
-Optional extra check (do not fail the skill if it is missing): `ssh -T git@github.com` should greet the same username.
+- If SSH is not set up yet, help them add a key or switch `origin` to HTTPS and retry `git fetch origin`. Then retry `ssh -T git@github.com`.
+- If the greeting is a **different** login, **stop**. They must use the GitHub account they typed (new SSH key or HTTPS credentials for that user). Then confirm `ssh -T git@github.com` matches before installing anything.
 
 ## 3. Prerequisites
 
@@ -164,7 +147,6 @@ If a server failed, show the terminal error and fix install issues before declar
 Tell the candidate:
 
 - Prep is complete
-- GitHub in this terminal is `<login>`
-- Email recorded (for the recruiter / Cursor invite)
+- GitHub via git is `<login>`
 - The three URLs
 - They can close the app until interview day; the interview uses a **different private repo**
