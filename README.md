@@ -2,9 +2,15 @@
 
 This repo checks that your laptop has everything needed for the Connecteam interview.
 
-Clone it, open it in Cursor, run **`/setup-prep`**. The skill does the rest: GitHub username + email, confirms this terminal is that GitHub account, installs Python/Node deps, starts the app.
+You do **not** get Connecteam Cursor access until interview day. Warmup does not need our team.
 
-You do not need to read further. The rest of this README is optional if you want the details yourself.
+**If you use Cursor:** clone this repo, open it, run **`/setup-prep`**. The skill does the rest (GitHub username + email, confirms this terminal is that GitHub account, installs deps, starts the app).
+
+Use **Cursor Hobby (free)** or a **personal** Cursor account you already pay for. Do **not** use a work / company SSO Cursor account — it often cannot join our team later, and it is the wrong login for this interview.
+
+**If you do not want Cursor for this step:** skip the skill. Install the tools and run the commands in [Manual setup](#manual-setup). That is enough.
+
+You do not need to read further unless you chose the manual path or want the details.
 
 ---
 
@@ -12,7 +18,7 @@ You do not need to read further. The rest of this README is optional if you want
 
 This is not the interview. Interview day uses a different private repo.
 
-You need Git, GitHub CLI (`gh`), Python 3.11+, Node 24+, and Cursor (or another AI IDE that can run project skills). Newer Python/Node is fine.
+You need Git, GitHub CLI (`gh`), Python 3.11+, and Node 24+. Newer Python/Node is fine.
 
 **macOS**
 
@@ -36,12 +42,11 @@ git clone https://github.com/Connecteam-Interviews/interview-warmup.git
 cd interview-warmup
 ```
 
-If the skill is happy, http://localhost:5173, http://localhost:8000/health, and http://localhost:8000/docs all respond.
-
-If `gh` is not logged in as the username you typed:
+Log GitHub CLI in as the account you will use on interview day:
 
 ```bash
 gh auth login
+gh api user --jq .login
 ```
 
 Wrong account:
@@ -50,3 +55,25 @@ Wrong account:
 gh auth logout --hostname github.com
 gh auth login
 ```
+
+## Manual setup
+
+Same result as `/setup-prep`, without Cursor.
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate   # Windows: .\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then http://localhost:5173, http://localhost:8000/health, and http://localhost:8000/docs should respond.
