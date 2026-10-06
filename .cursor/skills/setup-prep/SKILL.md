@@ -2,7 +2,8 @@
 name: setup-prep
 description: >-
   Prepares the interview laptop: collects the candidate GitHub username,
-  verifies git can talk to GitHub as that user, then installs Python 3.11+ /
+  verifies git can talk to GitHub as that user, requires GitHub two-factor
+  authentication on that account, then installs Python 3.11+ /
   Node 24+ deps and starts FastAPI + Vite. Use when the user says setup prep,
   /setup-prep, prepare for the interview, or install the environment from the
   README.
@@ -19,6 +20,7 @@ Do **not** install or use GitHub CLI (`gh`). Use `git` only.
 ```
 - [ ] Collect GitHub username
 - [ ] Prove git can talk to GitHub as that user
+- [ ] GitHub two-factor authentication is on for that account
 - [ ] Verify runtime prerequisites
 - [ ] Install backend
 - [ ] Install frontend
@@ -62,7 +64,25 @@ That command is GitHub’s git/SSH check, not GitHub CLI. The greeting is `Hi <l
 - If SSH is not set up yet, help them add a key or switch `origin` to HTTPS and retry `git fetch origin`. Then retry `ssh -T git@github.com`.
 - If the greeting is a **different** login, **stop**. They must use the GitHub account they typed (new SSH key or HTTPS credentials for that user). Then confirm `ssh -T git@github.com` matches before installing anything.
 
-## 3. Prerequisites
+## 3. GitHub two-factor authentication
+
+The interview GitHub org will not let them accept the private-repo invite until two-factor authentication is enabled on this account. Setting it up during the interview wastes the session. Do this during prep.
+
+**Stop** and send them to https://github.com/settings/security on the same account `ssh -T` greeted. They must enable an authenticator app or a passkey. SMS is not enough.
+
+- If it is already on, they confirm and you continue.
+- If it is off, wait until they confirm the security page shows two-factor authentication is enabled. Do not install anything until they do.
+- Do not ask for codes, recovery codes, passwords, or screenshots of secrets.
+
+Append to `PREP.md` (do not commit it):
+
+```markdown
+github_2fa: enabled
+```
+
+If they cannot turn it on now, **stop**. Prep is not complete.
+
+## 4. Prerequisites
 
 From the repo root, verify:
 
@@ -85,7 +105,7 @@ Do **not** require `python3.11` or Node 24 specifically. Do **not** install a se
 
 If a prerequisite is **missing or older than the minimum**, **stop** and tell them how to install it using the README section for their OS. Do not install system packages unless they explicitly ask.
 
-## 4. Backend
+## 5. Backend
 
 macOS/Linux — use the same `python3` / `python` that passed the version check:
 
@@ -107,14 +127,14 @@ python -m pip install -r requirements.txt
 
 If `.venv` already exists, reuse it and only reinstall requirements.
 
-## 5. Frontend
+## 6. Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-## 6. Start servers
+## 7. Start servers
 
 If ports 8000 or 5173 are already serving this app, reuse them.
 
@@ -142,11 +162,12 @@ Confirm with curl/fetch:
 
 If a server failed, show the terminal error and fix install issues before declaring ready.
 
-## 7. Done
+## 8. Done
 
 Tell the candidate:
 
 - Prep is complete
 - GitHub via git is `<login>`
+- GitHub two-factor authentication is on for that account
 - The three URLs
 - They can close the app until interview day; the interview uses a **different private repo**

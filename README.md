@@ -2,9 +2,11 @@
 
 This repo checks that your laptop has everything needed for the Connecteam interview.
 
-Clone it. In Cursor, open the **repo root** (`interview-warmup`), then in Agent chat type **`/setup-prep`**. The skill does the rest: asks for your GitHub username, checks git can talk to GitHub as that user, installs Python/Node deps, starts the app.
+Clone it. In Cursor, open the **repo root** (`interview-warmup`), then in Agent chat type **`/setup-prep`**. The skill does the rest: asks for your GitHub username, checks git can talk to GitHub as that user, has you turn on GitHub two-factor authentication, installs Python/Node deps, starts the app.
 
 For this install, use a **personal free** Cursor account. On interview day we give you a paid Cursor account.
+
+**Turn on GitHub two-factor authentication before the interview.** Use the same GitHub account you will use on interview day. Open https://github.com/settings/security and enable an authenticator app or a passkey. SMS is not enough. The private interview repository will not let you accept the invite until this is on. Do it during prep, not during the interview.
 
 You can skip Cursor and follow [Manual setup](#manual-setup) instead.
 
@@ -50,6 +52,8 @@ ssh -T git@github.com
 ```
 
 `ssh -T` should greet the GitHub username you gave the skill.
+
+On that same account, two-factor authentication must be on before interview day: https://github.com/settings/security (authenticator app or passkey, not SMS).
 
 ## Manual setup
 
